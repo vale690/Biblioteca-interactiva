@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca Interactiva</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 Biblioteca Interactiva</h1>
+
+  <div class="buscador">
+    <input type="text" id="buscar" placeholder="Buscar por título o autor...">
+  </div>
+
+  <div>
+    <input type="text" id="titulo" placeholder="Título">
+    <input type="text" id="autor" placeholder="Autor">
+    <input type="text" id="imagen" placeholder="URL de la portada (opcional)">
+    <select id="estado">
+      <option value="Pendiente">Pendiente</option>
+      <option value="Leído">Leído</option>
+    </select>
+    <button onclick="agregarLibro()">Agregar Libro</button>
+  </div>
+
+  <div class="lista-libros" id="listaLibros"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
