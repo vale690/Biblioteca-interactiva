@@ -6,24 +6,27 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>📚 Biblioteca Interactiva</h1>
+  <h1>Biblioteca Interactiva</h1>
 
+  <!-- Buscador -->
   <div class="buscador">
     <input type="text" id="buscar" placeholder="Buscar por título o autor...">
   </div>
 
-  <div>
-    <input type="text" id="titulo" placeholder="Título">
-    <input type="text" id="autor" placeholder="Autor">
-    <input type="text" id="imagen" placeholder="URL de la portada (opcional)">
-    <select id="estado">
+  <!-- Formulario para agregar libros -->
+  <form id="book-form">
+    <input type="text" id="title" placeholder="Título" required>
+    <input type="text" id="author" placeholder="Autor" required>
+    <input type="text" id="cover" placeholder="URL de la portada (opcional)">
+    <select id="status">
       <option value="Pendiente">Pendiente</option>
       <option value="Leído">Leído</option>
     </select>
-    <button onclick="agregarLibro()">Agregar Libro</button>
-  </div>
+    <button type="submit">Agregar Libro</button>
+  </form>
 
-  <div class="lista-libros" id="listaLibros"></div>
+  <!-- Lista de libros -->
+  <div class="lista-libros" id="library"></div>
 
   <script src="script.js"></script>
 </body>
