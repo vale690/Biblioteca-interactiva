@@ -1,83 +1,39 @@
-// Cargar libros desde LocalStorage o usar ejemplos
-let libros = JSON.parse(localStorage.getItem("libros")) || [
-  { titulo: "Cien Años de Soledad", autor: "Gabriel García Márquez", estado: "Leído", imagen: "" },
-  { titulo: "El Principito", autor: "Antoine de Saint-Exupéry", estado: "Pendiente", imagen: "" },
-  { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", estado: "Leído", imagen: "" }
-];
+// Espera a que la página cargue
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("book-form");
+    const library = document.getElementById("library");
 
-const listaLibros = document.getElementById("listaLibros");
-const buscar = document.getElementById("buscar");
+    form.addEventListener("submit", (e) => {
+        e.preventDefault(); // Evita que la página se recargue
 
-// Mostrar libros
-function mostrarLibros(filtro = "") {
-  listaLibros.innerHTML = "";
-  libros
-    .filter(libro => 
-      libro.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
-      libro.autor.toLowerCase().includes(filtro.toLowerCase())
-    )
-    .forEach((libro, index) => {
-      const div = document.createElement("div");
-      div.className = "libro";
-      div.innerHTML = `
-        ${libro.imagen ? <img src="${libro.imagen}" alt="Portada"> : <img src="https://via.placeholder.com/100x150?text=Libro" alt="Portada">}
-        <h3>${libro.titulo}</h3>
-        <p>${libro.autor}</p>
-        <span class="estado ${libro.estado === "Leído" ? "leido" : "pendiente"}">
-          ${libro.estado}
-        </span>
-        <br><br>
-        <button onclick="cambiarEstado(${index})">
-          Cambiar a ${libro.estado === "Leído" ? "Pendiente" : "Leído"}
-        </button>
-        <button class="btn-eliminar" onclick="eliminarLibro(${index})">
-          Eliminar
-        </button>
-      `;
-      listaLibros.appendChild(div);
-    });
-}
+        // Obtiene los valores del formulario
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const coverUrl = document.getElementById("cover").value;
+        const status = document.getElementById("status").value;
 
-// Agregar libro nuevo
-function agregarLibro() {
-  const titulo = document.getElementById("titulo").value;
-  const autor = document.getElementById("autor").value;
-  const imagen = document.getElementById("imagen").value;
-  const estado = document.getElementById("estado").value;
+        // Crea un contenedor para el libro
+        const bookDiv = document.createElement("div");
+        bookDiv.classList.add("book");
 
-  if (titulo && autor) {
-    libros.push({ titulo, autor, estado, imagen });
-    localStorage.setItem("libros", JSON.stringify(libros));
-    mostrarLibros();
-    document.getElementById("titulo").value = "";
-    document.getElementById("autor").value = "";
-    document.getElementById("imagen").value = "";
-    document.getElementById("estado").value = "Pendiente";
-  } else {
-    alert("Por favor completa título y autor");
-  }
-}
+        // Si hay portada, agrega la imagen
+        if (coverUrl) {
+            const img = document.createElement("img");
+            img.src = coverUrl;
+            img.alt = title;
+            img.classList.add("cover");
+            bookDiv.appendChild(img);
+        }
 
-// Cambiar estado de un libro
-function cambiarEstado(index) {
-  libros[index].estado = libros[index].estado === "Leído" ? "Pendiente" : "Leído";
-  localStorage.setItem("libros", JSON.stringify(libros));
-  mostrarLibros(buscar.value);
-}
+        // Agrega el título y autor
+        const info = document.createElement("p");
+        info.textContent = ${title} - ${author} [${status}];
+        bookDiv.appendChild(info);
 
-// Eliminar libro
-function eliminarLibro(index) {
-  if (confirm("¿Seguro que quieres eliminar este libro?")) {
-    libros.splice(index, 1);
-    localStorage.setItem("libros", JSON.stringify(libros));
-    mostrarLibros(buscar.value);
-  }
-}
+        // Agrega el libro a la biblioteca
+        library.appendChild(bookDiv);
 
-// Evento buscar
-buscar.addEventListener("input", (e) => {
-  mostrarLibros(e.target.value);
+        // Limpia el formulario
+        form.reset();
+    });
 });
-
-// Mostrar al inicio
-mostrarLibros();
